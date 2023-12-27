@@ -1,15 +1,51 @@
-import { Link } from "react-router-dom";
-import {  useState } from "react"; 
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useContext, useState } from "react"; 
 
 import { FaEnvelope, FaEye, FaEyeSlash, FaKey } from "react-icons/fa"; 
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {  
+  const { loginUser } = useContext(AuthContext);
 
-  const [isShown, setIsShown] = useState(false); 
+  const [isShown, setIsShown] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   const handlePasswordShow = (e) => {
     e.preventDefault();
     setIsShown(!isShown);
-  }; 
+  };
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const email = form.get("email");
+    const password = form.get("password");
+
+    //login user
+    loginUser(email, password)
+      .then(() => {
+        Swal.fire({
+          title: "Congrats!!",
+          text: `You successfully Logged in`,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        Swal.fire({
+          title: "Error!",
+          text: `${errorMessage}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      });
+  };
+
   return (
     <div>
       <div className="shape-bg bg-fixed relative py-14 md:py-24 lg:py-28">
@@ -19,6 +55,7 @@ const Login = () => {
             Login Now
           </h2>
           <form
+          onSubmit={handleLogin}
             className="flex flex-col text-[#08041f] gap-3" 
           >
             <div className="flex relative items-center mb-3 rounded-md  ">
@@ -72,6 +109,7 @@ const Login = () => {
             <h2 className="text-xl dark:text-white  bg-white text-[#08041f] font-semibold dark:bg-[#08041f] inline-block relative -top-3  px-4 ">
               You can also login with
             </h2>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
         <div className="mt-8 dark:bg-[#08041f]  relative z-20 bg-white  max-w-3xl mx-auto md:px-12 px-6 py-6 md:py-14 flex flex-col md:flex-row justify-between items-center gap-4">
