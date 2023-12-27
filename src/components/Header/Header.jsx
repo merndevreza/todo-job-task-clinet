@@ -59,7 +59,7 @@ const Header = () => {
           <Link to="/">
             <div className="flex items-center gap-3">
               <img
-                className="max-h-[70px] md:max-h-[80px] lg:max-h-[100px]"
+                className="max-h-[70px]"
                 src={logo}
                 alt=""
               />
@@ -105,9 +105,9 @@ const Header = () => {
           <button className="lg:mr-5" onClick={handleDarkLight}>
             {theme === "dark" ? (
               <GoSun 
-              className="dark:text-white text-[#08041f] text-[35px]" />
+              className="dark:text-white text-[#08041f] text-[25px]" />
             ) : (
-               <IoMdMoon className="dark:text-white text-[#08041f] text-[35px]" />
+               <IoMdMoon className="dark:text-white text-[#08041f] text-[25px]" />
             )}
           </button>
           {/* {isLoggedIn ? (

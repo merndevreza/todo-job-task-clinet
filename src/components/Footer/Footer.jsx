@@ -4,10 +4,12 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import fbg from "../../assets/images/b.jpg";
 const Footer = () => {
   return (
-    <footer className="dark:bg-theme-black bg-[#7b5e27]">
-      <div className=" footer footer-center p-10 bg-[#03112c6c] text-white">
+    <footer className="relative dark:bg-theme-black bg-[#110235]">
+      <img className="absolute w-full h-full object-cover object-bottom z-10" src={fbg} alt="" />
+      <div className=" relative z-20 footer footer-center p-10 bg-[#03112ccc] text-white">
         <aside>
           <img className="w-[160px] lg:w-[200px]" src={logo} alt="" />
           <div>
@@ -39,7 +41,7 @@ const Footer = () => {
           </div>
         </nav>
       </div>
-      <p className="bg-[#010114] text-center text-white py-4">
+      <p className="bg-[#010114] relative z-20  text-center text-white py-4">
         Copyright &copy; 2023, All right reserved by Rezaul Karim.
       </p>
     </footer>
