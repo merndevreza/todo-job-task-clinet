@@ -1,15 +1,20 @@
-import { Link, NavLink } from "react-router-dom"; 
-import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"; 
+import { useContext, useEffect, useState } from "react";
 import { RiMenuLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { IoMdMoon } from "react-icons/io";
 import { GoSun } from "react-icons/go";
 import logo from "../../assets/images/logo.png"
+import Button from "../Button/Button";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
 const Header = () => {
    const [scroll, setScroll] = useState(false);
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const navigate = useNavigate();
-//   const location = useLocation();
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { user, logOutUser } = useContext(AuthContext);
+   const navigate = useNavigate();
+   const location = useLocation();
   //fix menu at top
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -18,9 +23,9 @@ const Header = () => {
   }, []);
 
   //user-dropdown
-//   const handleDropdown = () => {
-//     setIsDropdownOpen(!isDropdownOpen);
-//   };
+   const handleDropdown = () => {
+     setIsDropdownOpen(!isDropdownOpen);
+   };
   //dark light toggler
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
@@ -45,6 +50,37 @@ const Header = () => {
   const handleMobileMenu = () => {
     setIsOpen(!isOpen);
   };
+    // Check user logged in or logged out and update UI instantly
+    useEffect(() => {
+      if (user) {
+        setIsLoggedIn(true);
+      }else{
+        setIsLoggedIn(false)
+      }
+    }, [user]);
+    //logout
+    const handleLogout = () => {
+      logOutUser()
+        .then(() => {
+          Swal.fire({
+            title: "Logged Out!!",
+            text: `You successfully Logged out`,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          setIsLoggedIn(false);
+          navigate(location?.state ? location.state : "/");
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          Swal.fire({
+            title: "Error!",
+            text: `${errorMessage}`,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        });
+    };
   return (
     <div
       className={
@@ -100,6 +136,7 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+
         <div className="order-last flex items-center gap-2">
           <button className="lg:mr-5" onClick={handleDarkLight}>
             {theme === "dark" ? (
@@ -109,7 +146,7 @@ const Header = () => {
                <IoMdMoon className="dark:text-white text-[#08041f] text-[25px]" />
             )}
           </button>
-          {/* {isLoggedIn ? (
+          {isLoggedIn ? (
             user?.photoURL && (
               <div className="relative ">
                 <img
@@ -126,7 +163,8 @@ const Header = () => {
                     >
                       Dashboard
                     </Link>
-                    <button className="btn rounded-full  border-none bg-theme-yellow hover:bg-theme-black hover:text-white cursor-pointer text-theme-dark text-xl px-8 slider-button">
+                    <button 
+                      onClick={handleLogout} className="btn rounded-full  border-none bg-theme-yellow hover:bg-theme-black hover:text-white cursor-pointer text-theme-dark text-xl px-8 slider-button">
                       Logout
                     </button>
                   </div>
@@ -137,7 +175,7 @@ const Header = () => {
             <Link to="/login">
               <Button btnName={"Login"}></Button>
             </Link>
-          )} */}
+          )}
         </div>
       </header>
     </div>
