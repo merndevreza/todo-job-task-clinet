@@ -7,7 +7,6 @@ import { GoSun } from "react-icons/go";
 import logo from "../../assets/images/logo.png"
 const Header = () => {
    const [scroll, setScroll] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
 //   const navigate = useNavigate();
 //   const location = useLocation();

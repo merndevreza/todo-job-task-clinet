@@ -13,14 +13,14 @@ const Footer = () => {
         <aside>
           <img className="w-[160px] lg:w-[200px]" src={logo} alt="" />
           <div>
-            <h2 className="text-3xl md:text-4xl mb-2 text-theme-yellow font-semibold uppercase">
+            <h2 className="text-3xl md:text-4xl mb-2  font-semibold">
             SCC Technovision Inc
             </h2>
             <h3 className="hidden md:block md:text-xl font-medium text-white">
               Manage your tasks effectively
             </h3>
           </div>
-          <p className="text-lg mt-5 lg:text-xl max-w-5xl">
+          <p className="text-md mt-5 max-w-3xl">
           Organize and manage your team like a boss with Bitrix24, a free task management tool packing more capabilities than you can imagine.
           </p>
         </aside>
